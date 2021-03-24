@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { requestArticles } from './../../ducks/hackerNewsreducer'
+import { connect } from 'react-redux'
 import Card from './../shared/Card/Card';
 import Loading from './../shared/Loading/Loading';
 
 class HackerNews extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { articles: [], loading: true }
+  componentDidMount() {
+    this.props.requestArticles()
   }
+
 
   render() {
     const articles = this.state.articles.map((article => <Card key={article.id} article={article} />))
@@ -19,7 +21,12 @@ class HackerNews extends Component {
   }
 }
 
-export default HackerNews;
+
+function mapStateToProps(state) {
+  return state.hackerNews;
+}
+
+export default connect(mapStateToProps, { requestArticles })(HackerNews);
 
 
 const styles = {
